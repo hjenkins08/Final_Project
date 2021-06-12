@@ -1,0 +1,36 @@
+body{
+    font-family: 'Century Gothic', helvetica, arial;
+}
+
+.navbar{
+    background-color: rgb(132,164,164);
+}
+
+.navbar .navbar-text{
+    color:#7d7aa2;
+}
+
+.jumbotron{
+    background-color:#c2c8c5;
+    border: solid 5px #4a707a;
+    border-radius:25px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.carousel .carousel-caption {
+    text-shadow: 2px 2px 5px black;
+}
+
+.category{
+    color:#7d7aa2;
+    font-weight:bold;
+}
+
+.card{
+    border-radius:25px;
+    box-shadow: 0 4px 8px 0 rgb(96,132,144), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#footer{
+    background-color: #c2c8c5;
+}

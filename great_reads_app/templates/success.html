@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/css/style.css">
+        <title>Great Reads</title>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="/success">Great Reads</a>
+            <img src="https://i.pinimg.com/originals/75/0e/77/750e779e59860075013788ef27849947.png" width="30" height="30" class="d-inline-block align-top" alt=""> So many books, so little time.</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <span class="navbar-text">
+                    <p class="navbar-text mr-4">Hello <a href="/user_profile/{{user.id}}">{{user.first_name}}!</a></p>
+                    <a href="/logout">Logout</a>
+                </span>
+            </div>
+            
+        </nav>
+
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        
+        <div class="container">
+            <h1 class="display-3 text-center"> Welcome to {{user.first_name}}'s library!</h1>
+
+            <div class="container d-flex justify-content-around flex-wrap">
+                {% for post in books_listed %}
+                <div class="card my-5" style="width: 22rem;">
+                    <img class="card-img-top" src="{{post.image_url}}" alt="Picture of Harry Potter">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.book_name}}</h5>
+                        <p class="card-text">{{post.book_quote}}</p>
+                        <a class="btn btn-secondary" href="/wants/{{post.id}}">Want to read!</a>
+                        <p>Want to read: {{post.user_wants.count}}</p>
+                        <!-- <a href="#" class="btn btn-secondary" href="/read/{{post.id}}">I've read this!</a>
+                        <p>I've read this: {{post.user_read.count}}</p> -->
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row"></div>
+            <div class="col text-center">
+                <h1 class="display-4"> Write a book suggestion:</h1>
+                <form action="/post_message" method=POST>
+                    {% csrf_token %} 
+                    <input type="text" name="message">
+                    <input type="submit" value="Post">
+                </form>
+            </div>
+        </div>
+
+        <div class="jumbotron text-center mx-auto my-2" style="min-height:400px; width:85%">
+            <div class="container">
+                <div id="posts">
+                    {% for post in wall_messages %} 
+                    <div class="one_post">
+                        <p class="post">"{{post.message}}"</p>
+                        <p class="poster">By: <a href="/user_profile/{{post.poster.id}}">{{post.poster.first_name}} {{post.poster.last_name}}</a></p>
+                        <a class="badge badge-pill badge-secondary" href="/like/{{post.id}}">Like</a>
+                        <p>{{post.user_likes.count}}</p>
+                        <!-- <a href="/like/{{post.id}}">Like</a> -->
+                        <form action="/post_comment/{{post.id}}" method=POST>
+                            {% csrf_token %} 
+                            Comment: <input type="text" name="comment">
+                            <input type="submit" value="Submit">
+                        </form>
+                        {% for comment in post.post_comments.all %} 
+                            <p>"{{comment.comment}}"</p>
+                            <p>Poster: {{comment.poster.first_name}} {{comment.poster.last_name}}</p>
+                            <a class="badge badge-pill badge-secondary" href="/delete/{{comment.id}}">Delete</a>
+                            <a class="badge badge-pill badge-secondary" href="/edit/{{comment.id}}">Edit</a>
+                        {% endfor %}
+                    </div>
+                    <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+            
+        </div>
+
+        <div class="text-center">
+            <a class="btn btn-secondary btn-lg" href="/logout">Log Out</a>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
